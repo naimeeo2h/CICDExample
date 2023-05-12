@@ -56,7 +56,7 @@ jobs:
           name: Build for android
           command: |
             cd android
-            ./gradlew assembleDebug
+            ./gradlew assembleRelease
       #- save_cache:
         #  key: *jars-cache
         #  paths:
@@ -65,7 +65,7 @@ jobs:
           #  - android/build-cache
           
       - store_artifacts:
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/release/app-release.apk
           
 workflows:
   build:
