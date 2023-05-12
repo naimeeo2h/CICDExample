@@ -1,0 +1,4 @@
+#Fri May 12 18:12:01 IST 2023
+base.0=/Users/naimeepatel/Desktop/Naimee/CICDExample/android/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

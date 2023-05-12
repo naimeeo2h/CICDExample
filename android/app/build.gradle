@@ -118,10 +118,10 @@ android {
             keyPassword 'android'
         }
         release{
-            storeFile file('clinoverseRelease.keystore')
-            storePassword 'Jenil@18072019'
-            keyAlias 'ClinoverseReleaseApp'
-            keyPassword 'Jenil@18072019'
+            storeFile file('my-app-key.keystore')
+            storePassword '123456'
+            keyAlias 'my-app-alias'
+            keyPassword '123456'
         }
     }
     buildTypes {
