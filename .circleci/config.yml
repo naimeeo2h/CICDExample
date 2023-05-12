@@ -40,7 +40,7 @@ jobs:
             sudo gem install fastlane -NV
       - run:
           name: Install Dependencies
-          command: sudo npm install --prefer-offline --no-audit --progress=false`
+          command: sudo npm install --prefer-offline --no-audit --progress=false
       - restore_cache:
           keys:
             - &node-cache node-v1-{{ checksum "package-lock.json" }}-{{ arch }}
