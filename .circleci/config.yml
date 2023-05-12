@@ -40,17 +40,17 @@ jobs:
             sudo gem install fastlane -NV
       - run:
           name: Install Dependencies
-          command: sudo npm install --prefer-offline --no-audit --progress=false
-      - restore_cache:
-          keys:
-            - &node-cache node-v1-{{ checksum "package-lock.json" }}-{{ arch }}
-            - node-v1-{{ arch }}
-            - node-v1
-      - run: npm i --legacy-peer-deps
-      - save_cache:
-          key: *node-cache
-          paths:
-            - node_modules
+          command: sudo npm install
+      # - restore_cache:
+      #     keys:
+      #       - &node-cache node-v1-{{ checksum "package-lock.json" }}-{{ arch }}
+      #       - node-v1-{{ arch }}
+      #       - node-v1
+      - run: npm i
+      # - save_cache:
+      #     key: *node-cache
+      #     paths:
+      #       - node_modules
      # - run:
          # name: Add keystore for release build
           #command: echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > android/clinoverseRelease.keystore
@@ -77,65 +77,7 @@ jobs:
           
       - store_artifacts:
           path: android/app/build/outputs/apk/debug/app-debug.apk
-      
-      
-      
-  build-ios:
-    macos:
-      xcode: 14.2
-
-    environment:
-      #APP_SPECIFIC_PASSWORD: rzju-lenp-redh-froj
-      #SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: +918866500778
-      #FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: rzju-lenp-redh-froj
-      CERTIFICATE_PATH: "./AppStore_com.clinoverse.app.mobileprovision"
-
-    steps:
-      - add_ssh_keys
-            
-      - checkout
-      
-      - run:
-          name: Echo MATCH_PASSWORD
-          command: echo "Hello, CircleCI! -$MATCH_PASSWORD"
           
-      #- run: gem install bundler
-      #- run: bundle install
-      #- run: bundle exec rspec
-      #- run:
-          #name: Install Fastlane
-          #command: |
-            #gem install fastlane -NV
-            #fastlane --version
-      - run:
-          name: Install Ruby and Bundler
-          command: |
-            sudo gem install bundler
-            
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build iOS App
-          command: |
-            cd ios
-            pod install
-      - run:
-          name: install fastlane
-          command: |
-            cd ios
-            sudo bundle update && (sudo bundle check || sudo bundle install --path vendor/bundle --clean)
-
-      - run:
-          name: build ipa
-          command: |
-            cd ios
-            bundle exec fastlane betaVersion
-            
-      - store_artifacts:
-          path: ios/clinoverse.ipa
-  
-
 workflows:
   build:
     jobs:
