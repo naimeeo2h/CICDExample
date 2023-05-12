@@ -36,6 +36,11 @@ jobs:
          command: |
             cd android
             echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > clinoverseRelease.keystore
+      - run:
+          name: Build for android
+          command: |
+            cd android
+            ./gradlew assembleRelease
       #- save_cache:
         #  key: *jars-cache
         #  paths:
