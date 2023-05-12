@@ -1,143 +1,26 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-
-  build-android:
+  say-hello:
+    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/configuration-reference/#executor-job
     docker:
-      - image: cimg/android:2022.09.2-node
-      #- image: cimg/ruby:2.7.5-node
-      #- image: cimg/android:2022.09.2-node
-      #- image: cimg/base:stable
-      #- image: cimg/node:20.0.0
-      #- image: cimg/android:2022.09.2-node
-      #- image: circleci/ruby:2.7.5
-      #- image: circleci/ruby:2.7.5-node-browsers
-
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
-      - add_ssh_keys
       - checkout
-      
-      #- run: gem install bundler
-      #- run: bundle install
-      #- run: bundle exec rspec
       - run:
-          name: Install Ruby and Bundler
-          command: |
-            sudo gem install bundler --user-install
-      #- run:
-          #name: Install Dependencies
-          #command: |
-           # bundle install
-           # npm install
-      #- run:
-          #name: Run Tests
-         # command: |
-          #  npm test
-            
-      - run:
-          name: Install Fastlane
-          command: |
-            sudo gem install fastlane -NV
-      - run:
-          name: Install Dependencies
-          command: sudo npm install
-      - restore_cache:
-          keys:
-            - &node-cache node-v1-{{ checksum "package-lock.json" }}-{{ arch }}
-            - node-v1-{{ arch }}
-            - node-v1
-      - run: npm i --legacy-peer-deps
-      - save_cache:
-          key: *node-cache
-          paths:
-            - node_modules
-     # - run:
-         # name: Add keystore for release build
-          #command: echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > android/clinoverseRelease.keystore
-          
-            
-     # - restore_cache:
-         # keys:
-          #  - &jars-cache jars-v1-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}-{{ checksum "package-lock.json" }}-{{ arch }}
-          #  - jars-v1-{{ arch }}
-           # - jars-v1
+          name: "Say hello"
+          command: "echo Hello, World!"
 
-      - run:
-          name: Build for android
-          command: |
-            cd android
-            bundle exec fastlane beta
-            
-      #- save_cache:
-        #  key: *jars-cache
-        #  paths:
-         #   - ~/.gradle
-          #  - android/.gradle
-          #  - android/build-cache
-          
-      - store_artifacts:
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-      
-      
-      
-  build-ios:
-    macos:
-      xcode: 14.2
-
-    environment:
-      #APP_SPECIFIC_PASSWORD: rzju-lenp-redh-froj
-      #SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: +918866500778
-      #FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: rzju-lenp-redh-froj
-      CERTIFICATE_PATH: "./AppStore_com.clinoverse.app.mobileprovision"
-
-    steps:
-      - add_ssh_keys
-            
-      - checkout
-      
-      - run:
-          name: Echo MATCH_PASSWORD
-          command: echo "Hello, CircleCI! -$MATCH_PASSWORD"
-          
-      #- run: gem install bundler
-      #- run: bundle install
-      #- run: bundle exec rspec
-      #- run:
-          #name: Install Fastlane
-          #command: |
-            #gem install fastlane -NV
-            #fastlane --version
-      - run:
-          name: Install Ruby and Bundler
-          command: |
-            sudo gem install bundler
-            
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build iOS App
-          command: |
-            cd ios
-            pod install
-      - run:
-          name: install fastlane
-          command: |
-            cd ios
-            sudo bundle update && (sudo bundle check || sudo bundle install --path vendor/bundle --clean)
-
-      - run:
-          name: build ipa
-          command: |
-            cd ios
-            bundle exec fastlane betaVersion
-            
-      - store_artifacts:
-          path: ios/clinoverse.ipa
-  
-
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  build:
+  say-hello-workflow:
     jobs:
-      - build-android
-      #- build-ios
+      - say-hello
