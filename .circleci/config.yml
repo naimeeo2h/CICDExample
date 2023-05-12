@@ -31,27 +31,9 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
-      # - restore_cache:
-      #     keys:
-      #       - &node-cache node-v1-{{ checksum "package-lock.json" }}-{{ arch }}
-      #       - node-v1-{{ arch }}
-      #       - node-v1
-      # - run: npm i
-      # - save_cache:
-      #     key: *node-cache
-      #     paths:
-      #       - node_modules
-     # - run:
-         # name: Add keystore for release build
-          #command: echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > android/clinoverseRelease.keystore
-          
-            
-     # - restore_cache:
-         # keys:
-          #  - &jars-cache jars-v1-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}-{{ checksum "package-lock.json" }}-{{ arch }}
-          #  - jars-v1-{{ arch }}
-           # - jars-v1
-
+      - run:
+         name: Add keystore for release build
+         command: echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > android/clinoverseRelease.keystore
       - run:
           name: Build for android
           command: |
