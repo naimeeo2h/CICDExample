@@ -33,7 +33,7 @@ jobs:
           command: npm install
       - run:
          name: Add keystore for release build
-         command: echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > android/clinoverseRelease.keystore
+         command: echo $RELEASE_KEYSTORE_BASE64 | base64 --decode > Users/naimeepatel/Desktop/Naimee/CICDExample/android/clinoverseRelease.keystore
       - run:
           name: Build for android
           command: |
